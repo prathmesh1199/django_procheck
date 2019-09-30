@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Teacher-Statistics Page</title>
+        {%load static%}
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="{%static "home\css\styles1.css"%}">
+
+    </head>
+
+    <body>
+        <header>
+            PRO-CHECK
+    </header>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav1"> 
+                 
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                        <a class="nav-link" href="{%url 'home:teacher_project_page'%}">ALL PROJECT</a>
+                      </li>
+          <li class="nav-item active">
+            <a class="nav-link" href="{%url 'home:teacher_login'%}">LOG OUT</a>
+          </li>
+        </ul>   
+      </div>
+    </nav>
+
+    <div style="margin-top: 20px; margin-bottom: 20px;">    
+        <div class="container-fluid" style="margin-left: 100px;">
+            <div class="row">
+                <div class="col-md-3" style="align-content: center">
+                        <div class="card" style="width: 18rem;" id="statistics_card">
+                                
+                                <div class="card-body">
+                                  <h5 class="card-title">DOMAIN</h5>
+                                  <p class="card-text">KNOW THE DOMAIN STATISTICS</p>
+                                  <a href="{%url 'home:domain_statistics'%}" class="btn btn-primary">View Stat</a>
+                                </div>
+                              </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="card" style="width: 18rem;" id="statistics_card">
+                        
+                        <div class="card-body">
+                          <h5 class="card-title">THRUST-AREA</h5>
+                          <p class="card-text">KNOW THE THRUST-AREA STATISTICS</p>
+                          <a href="{%url 'home:thrust_statistics'%}" class="btn btn-primary">VIEW STAT</a>
+                        </div>
+                      </div>
+                </div>
+
+                <div class="col-md-3">
+                        <div class="card" style="width: 18rem;" id="statistics_card">
+                                
+                                <div class="card-body">
+                                  <h5 class="card-title">DIVISION</h5>
+                                  <p class="card-text">KNOW THE DIVISION-WISE STATISTICS</p>
+                                  <a href="{%url 'home:division_statistics'%}" class="btn btn-primary">View Stat</a>
+                                   
+                                </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    </body>
+</html>

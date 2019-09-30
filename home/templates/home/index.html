@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> Start Page</title>
+        {% load static %}
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="{%static "home\css\styles1.css"%}">
+        <style>
+        
+        </style>
+    </head>
+
+    <body>
+            <header>
+                    PRO-CHECK
+            </header>
+        
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="nav1"> 
+                     
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav mr-auto">
+                        <li class="nav-item active">
+                          <a class="nav-link" href="{%url 'home:teacher_login'%}">FACULTY<span class="sr-only">(current)</span></a>
+                        </li>
+                        <li class="nav-item active">
+                          <a class="nav-link" href="{%url 'home:group_login'%}">STUDENT</a>
+                        </li>
+                      </ul>   
+                    </div>
+            </nav>
+            <center>
+            <div style="margin-top: 80px; margin-bottom: 20px;">   
+                                 <a href="{%url 'home:teacher_login'%}"><img src="{%static 'home/img/teacher.jpg'%}"></a>
+                    <a href="{%url 'home:group_login'%}"><img src="{%static 'home/img/student.jpg'%}"></a>  
+                  
+          
+                       </div>
+            </center>
+    </body>
+
+  
+</html>
