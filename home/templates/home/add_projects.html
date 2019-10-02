@@ -32,9 +32,15 @@
                   </li>
                 </ul>   
               </div>
-      </nav>    
+      </nav>  
 
-      {{error}}
+      {% if error %}
+      <div class="alert alert-danger" role="alert">
+        {{error}}  
+      </div>
+      {% endif %}  
+
+      
         <div style="margin-top: 20px; margin-bottom: 20px;">    
         <div class="container">
             <div class="row">

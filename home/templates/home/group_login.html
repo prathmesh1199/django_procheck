@@ -33,7 +33,12 @@
                     </center>
                         <form method="POST" action="">
                                 {% csrf_token %}
-                                {{error}}
+                                {% if error %}
+                                <div class="alert alert-danger" role="alert">
+                                  {{error}}  
+                                </div>
+                                {% endif %}  
+
                                 <div class="form-group">
                                   
                                     <label for="inputGroupId">Group-Id</label>

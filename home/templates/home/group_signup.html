@@ -36,7 +36,11 @@
                               
                         <form method="POST" action="">
                             {% csrf_token %}
-                            {{ error }}
+                            {% if error %}
+                            <div class="alert alert-danger" role="alert">
+                             {{error}}  
+                              </div>
+                              {% endif %}
                                 <div class="form-row">
                                   <div class="form-group col-md-6">
                                     <label for="groupid">Group-ID</label>

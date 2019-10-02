@@ -226,7 +226,7 @@ def teacher_project_page(req) :
                 'viratrs123@gmail.com',
                 ['sanketsandream11@gmail.com'],
                 fail_silently = False)
-
+                
 
                 
 
@@ -236,6 +236,14 @@ def teacher_project_page(req) :
             group_id = req.POST['reject_btn']
             with connection.cursor() as cursor:
                 cursor.execute('update home_project set status = 3 where grp = %s',[group_id])
+                
+                send_mail('Procheck Project...!!!',
+                'Your Project has been Rejected...!!!',
+                'viratrs123@gmail.com',
+                ['sanketsandream11@gmail.com'],
+                fail_silently = False)
+                
+
         elif 'info_btn' in req.POST:
             group_login['group_id'] = ""
             group_login['division'] = ""
