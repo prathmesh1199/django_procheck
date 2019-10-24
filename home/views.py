@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from django.db import connection
 from .models import *
 from django.contrib import messages
-from matplotlib import pylab
-from pylab import *
+#from matplotlib import pylab
+#from pylab import *
 from django.core.mail import send_mail
+import numpy as np
+from  matplotlib import pyplot as plt
+
 
 #from .mail import *
 
@@ -196,14 +199,7 @@ def teacher_statistics(req) :
 
 def group_project_page(req) :
     if req.method == 'POST' :
-        '''group_id = req.POST['group_id'] 
-        print(group_id)
-        with connection.cursor() as cursor:
-            cursor.execute('update home_project set status = true where grp = %s',[group_id])
-        query = Project.objects.raw('select * from home_project where status = 0')        
-        query1 = Project.objects.raw('select * from home_project where status = 1')
-        return render(req,'home/teacher_project_page.html',{'query':query,'query1':query1})  
-        '''
+       
         pass      
     elif req.method == 'GET':
         query = Project.objects.raw('select * from home_project where status = 1')        
@@ -216,31 +212,46 @@ def teacher_project_page(req) :
         if 'group_id' in req.POST:
             #code for approval
             group_id = req.POST['group_id']
+
+            emaill = Group.objects.raw('select * from home_group where group_id = %s',[group_id])
+            
+            #Status = 2 for project approval
+
             with connection.cursor() as cursor:
                 cursor.execute('update home_project set status = 2 where grp = %s',[group_id])
                 
-                #sendmailtoreceiver('sanketsandream11@gmail.com')
                 
-                send_mail('HI...!!!',
+
+
+                group_row = Group.objects.raw('select * from home_group')
+                for i in group_row:
+                    if i.group_id == group_id:
+                        group_login['email'] = i.email
+
+                send_mail('Procheck Project...!!!',
                 'Your Project has been Approved...!!!',
                 'viratrs123@gmail.com',
-                ['sanketsandream11@gmail.com'],
+                [group_login['email']],
                 fail_silently = False)
-                
 
-                
-
-                print("hello")
         elif 'reject_btn' in  req.POST:
             #code for rejection
             group_id = req.POST['reject_btn']
+
+            #Status = 3 for project rejection
             with connection.cursor() as cursor:
                 cursor.execute('update home_project set status = 3 where grp = %s',[group_id])
                 
+
+                group_row = Group.objects.raw('select * from home_group')
+                for i in group_row:
+                    if i.group_id == group_id:
+                        group_login['email'] = i.email
+
                 send_mail('Procheck Project...!!!',
                 'Your Project has been Rejected...!!!',
                 'viratrs123@gmail.com',
-                ['sanketsandream11@gmail.com'],
+                [group_login['email']],
                 fail_silently = False)
                 
 
@@ -252,13 +263,10 @@ def teacher_project_page(req) :
             roll_list.clear()
             project_info_id.clear()
             project_info_id.append(req.POST['info_btn'])
-            #query1 = Project.objects.raw('select * from home_project where grp = %s',[group_id])[0]
-            #query2 = Group.objects.raw('select * from home_group where group_id = %s',[group_id])[0]
-            #query3 = Group.objects.raw('select * from home_student where grp_id = %s'),[group_id]
-            
+          
             print(project_info_id)
             return  redirect('home:project_info')
-            #return render(req,'home/teacher_project_page.html',{'description':query1.description})  
+          
         elif 'info_btn1' in req.POST:
             group_login['group_id'] = ""
             group_login['division'] = ""
@@ -267,14 +275,10 @@ def teacher_project_page(req) :
             roll_list.clear()
             project_info_id.clear()
             project_info_id.append(req.POST['info_btn1'])
-            #query1 = Project.objects.raw('select * from home_project where grp = %s',[group_id])[0]
-            #query2 = Group.objects.raw('select * from home_group where group_id = %s',[group_id])[0]
-            #query3 = Group.objects.raw('select * from home_student where grp_id = %s'),[group_id]
-            
+          
             print(project_info_id)
             return  redirect('home:project_info')
-            #return render(req,'home/teacher_project_page.html',{'description':query1.description})  
-
+            
         query = Project.objects.raw('select * from home_project where status = 1')        
         query1 = Project.objects.raw('select * from home_project where status = 2')
         return render(req,'home/teacher_project_page.html',{'query':query,'query1':query1})        
@@ -318,14 +322,12 @@ def group_info(req) :
              
             project_rows = Project.objects.raw('Select * from home_project ')
             for i in project_rows :
-                #flag = False
+               
                 if i.grp == group_login['group_id']:
-                    #flag = True
+             
                     return render(req,'home/group_info.html',{'group_id': group_login['group_id'],'div': group_login['division'],'n1': stud_list[0],'r1': roll_list[0],'n2': stud_list[1],'r2': roll_list[1],'n3': stud_list[2],'r3': roll_list[2],'n4': stud_list[3],'r4': roll_list[3],'email':group_login['email'],'title':i.title,'id':i.proj_id,'domain':i.domain,'area':i.thrust_area,'description':i.description,'status':i.status})    
-                    #{'title':i.title,'id':i.proj_id,'domain':i.domain,'area':i.thrust_area,'description':i.description}
-                    
-            #if flag == False:
-                #{'title':"You didn't add any Project..."}
+                  
+          
 
             return render(req,'home/group_info.html',{'group_id': group_login['group_id'],'div': group_login['division'],'n1': stud_list[0],'r1': roll_list[0],'n2': stud_list[1],'r2': roll_list[1],'n3': stud_list[2],'r3': roll_list[2],'n4': stud_list[3],'r4': roll_list[3],'email':group_login['email'],'title':"You didn't add any Project..."})    
 
@@ -362,9 +364,9 @@ def domain_statistics(req) :
 
         index = np.arange(len(domains))
         plt.bar(index, x)
-        plt.xlabel('Domains', fontsize=5)
-        plt.ylabel('Number of groups', fontsize=5)
-        plt.xticks(index, domains, fontsize=10)
+        plt.xlabel('Domains', fontsize=10)
+        plt.ylabel('Number of groups', fontsize=10)
+        plt.xticks(index, domains, fontsize=8)
         plt.title('Domain Wise')
         plt.show()
         
@@ -401,9 +403,9 @@ def thrust_statistics(req) :
 
         index = np.arange(len(areas))
         plt.bar(index, x)
-        plt.xlabel('Thrust Area', fontsize=5)
-        plt.ylabel('Number of groups', fontsize=5)
-        plt.xticks(index, areas, fontsize=10)
+        plt.xlabel('Thrust Area', fontsize=10)
+        plt.ylabel('Number of groups', fontsize=10)
+        plt.xticks(index, areas, fontsize=8)
         plt.title('Thrust Wise')
         plt.show()
         if group_login['loginstatus'] == True :
@@ -411,30 +413,5 @@ def thrust_statistics(req) :
         else:
             return render(req,'home/teacher_statistics.html')
 
-def division_statistics(req):
-    rows = Group.objects.raw('select * from home_group,home_project where home_group.group_id = home_project.grp' )
-    div = ['A','B','C']
-
-    x=[0,0,0]
-
-    for i in rows:
-        if i.division == 'A':
-            x[0]+=1
-        if i.division == 'B':
-            x[1]+=1
-        if i.division == 'C':
-            x[2]+=1        
-
-    index = np.arange(len(div))
-    plt.bar(index, x)
-    plt.xlabel('Division', fontsize=5)
-    plt.ylabel('Number of groups', fontsize=5)
-    plt.xticks(index, div, fontsize=10)
-    plt.title('Division Wise')
-    plt.show()
-    if group_login['loginstatus'] == True :
-        return render(req,'home/group_statistics.html')
-    else:
-        return render(req,'home/teacher_statistics.html')
 
 

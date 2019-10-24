@@ -19,7 +19,7 @@ urlpatterns = [
     path('group_info',views.group_info,name="group_info"),
     path('domain_statistics',views.domain_statistics,name="domain_statistics"),
     path('thrust_statistics',views.thrust_statistics,name="thrust_statistics"),
-    path('division_statistics',views.division_statistics,name="division_statistics"),
+    
     
    
 ]
